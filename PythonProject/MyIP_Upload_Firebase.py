@@ -8,7 +8,7 @@ ip = s.getsockname()[0]
 
 print(ip)
 
-firebase_url = 'https://你的FB.firebaseio.com/'
+firebase_url = 'https://arduino-d6136-default-rtdb.firebaseio.com/'
 data = {'ip':ip}
 result = requests.put(firebase_url + '/raspberry.json', verify=True, data=json.dumps(data))
 print(result)

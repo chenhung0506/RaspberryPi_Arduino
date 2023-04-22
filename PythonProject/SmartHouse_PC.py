@@ -19,17 +19,32 @@ import requests
 import serial
 from tkinter import font
 import time
+from RPLCD.i2c import CharLCD
 import json
+import socket
 
 ser = ''
 data = ''
 
 def lcd_display():
-    pass
+    lcd = CharLCD('PCF8574', address=0x3f, port=1, backlight_enabled=True)
+    lcd.clear()
+
+    # 顯示 IP
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip = s.getsockname()[0]
+    lcd.cursor_pos = (1, 0)
+    lcd.write_string(ip)
+
+    while True:
+        lcd.cursor_pos = (0, 0)
+        lcd.write_string(data)
+        time.sleep(0.2)
 
 def upload_firebase():
     while True:
-        firebase_url = 'https://你的FB.firebaseio.com/'
+        firebase_url = 'https://arduino-d6136-default-rtdb.firebaseio.com/'
         upload_data = {'data': data}
         result = requests.put(firebase_url + '/raspberry.json', verify=True, data=json.dumps(upload_data))
         print(result)
@@ -58,7 +73,7 @@ def send_data_to_arduino(data):
 
 def rev_data_from_arduino():
     global ser
-    ser = serial.Serial('COM8', 115200)
+    ser = serial.Serial('/dev/ttyUSB0', 115200)
     time.sleep(1)
     while True:
         try:
@@ -99,7 +114,7 @@ def rev_data_from_arduino():
             time.sleep(3)
             # 重新連線
             try:
-                ser = serial.Serial('COM5', 115200)
+                ser = serial.Serial('/dev/ttyUSB0', 115200)
             except:
                 pass
 
