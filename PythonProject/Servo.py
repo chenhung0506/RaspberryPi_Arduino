@@ -4,8 +4,8 @@ import time
 # 選擇控制伺服馬達的GPIO引腳
 servo_pin = 18
 
-# 使用BCM模式
-GPIO.setmode(GPIO.BCM)
+# 使用BOARD模式
+GPIO.setmode(GPIO.BOARD)
 GPIO.setup(servo_pin, GPIO.OUT)
 
 # 設置PWM頻率為50Hz
@@ -22,10 +22,13 @@ def set_angle(angle):
 
 try:
     # 旋轉伺服馬達
-    set_angle(0)
-    set_angle(90)
-    set_angle(180)
-    set_angle(0)
+    set_angle(0)  # 第一次先關門
+    while True:
+        set_angle(90)  # 開門
+        time.sleep(2)
+        # set_angle(180)
+        set_angle(0)  # 關門
+        time.sleep(2)
 
 finally:
     pwm.stop()
