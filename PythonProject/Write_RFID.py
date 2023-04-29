@@ -17,6 +17,6 @@ try:
         print("ID: %s\nText: %s" % (id, text))
         time.sleep(0.5)
         GPIO.output(buzzer_pin, GPIO.LOW)
-
+        time.sleep(0.5)
 finally:
     GPIO.cleanup()
