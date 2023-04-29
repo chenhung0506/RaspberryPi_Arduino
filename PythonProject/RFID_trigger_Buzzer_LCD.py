@@ -40,6 +40,15 @@ def rfid_play():
 
 
 def button_play():
+    lcd = CharLCD('PCF8574', address=0x3f, port=1, backlight_enabled=True)
+    lcd.clear()
+    # 顯示 IP
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip = s.getsockname()[0]
+    lcd.cursor_pos = (1, 0)
+    lcd.write_string(ip)
+
     while True:
         time.sleep(0.5)
         # 按下 button 將 LCD 螢幕清空
@@ -47,7 +56,8 @@ def button_play():
         # print(button_state)
         if button_state == 0:
             lcd.cursor_pos = (0, 0)
-            lcd.write_string("                ")
+            lcd.write_string(ip)
+            # lcd.write_string("                ")
 
 if __name__ == '__main__':
     t1 = threading.Thread(target=rfid_play)
