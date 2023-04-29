@@ -32,10 +32,9 @@ def rfid_play():
             # 顯示在 LCD 螢幕上
             lcd.cursor_pos = (0, 0)
             lcd.write_string(text)
-
-            time.sleep(0.1)
+            time.sleep(0.2)
             GPIO.output(buzzer_pin, GPIO.LOW)
-            time.sleep(0.1)  # 在讀取到卡片後等待一段時間
+            time.sleep(0.2)  # 在讀取到卡片後等待一段時間
     finally:
         GPIO.cleanup()
 
@@ -54,11 +53,10 @@ def button_play():
         time.sleep(0.5)
         # 按下 button 將 LCD 螢幕清空
         button_state = GPIO.input(button_pin)
-        # print(button_state)
+        print(button_state)
         if button_state == 0:
             lcd.cursor_pos = (0, 0)
             lcd.write_string(ip)
-            # lcd.write_string("                ")
 
 if __name__ == '__main__':
     t1 = threading.Thread(target=rfid_play)
