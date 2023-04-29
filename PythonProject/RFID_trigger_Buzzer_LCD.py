@@ -100,6 +100,5 @@ if __name__ == '__main__':
     t1.start()
     t2 = threading.Thread(target=button_play)
     t2.start()
-
-    # t3 = threading.Thread(target=excute_angle)
-    # t3.start()
+    t3 = threading.Thread(target=excute_angle)
+    t3.start()
