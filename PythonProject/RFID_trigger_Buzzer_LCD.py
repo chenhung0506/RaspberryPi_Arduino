@@ -76,6 +76,7 @@ def set_angle(angle):
     GPIO.output(servo_pin, False)
     pwm.ChangeDutyCycle(0)
 
+def excute_angle():
     try:
         # 旋轉伺服馬達
         set_angle(0)  # 第一次先關門
@@ -86,11 +87,10 @@ def set_angle(angle):
             set_angle(0)  # 關門
             time.sleep(2)
 
-
 if __name__ == '__main__':
     t1 = threading.Thread(target=rfid_play)
     t1.start()
     t2 = threading.Thread(target=button_play)
     t2.start()
-    t3 = threading.Thread(target=set_angle)
+    t3 = threading.Thread(target=excute_angle)
     t3.start()
