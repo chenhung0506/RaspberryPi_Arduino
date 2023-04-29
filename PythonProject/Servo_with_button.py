@@ -4,8 +4,8 @@ from time import sleep
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 #Set Button and LED pins
-Button = 40
-LED = 38
+Button = 32
+LED = 26
 #Setup Button and LED
 GPIO.setup(Button,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 GPIO.setup(LED,GPIO.OUT)
@@ -13,13 +13,13 @@ flag = 0
 
 while True:
     button_state = GPIO.input(Button)
-    print(button_state)
-
     if button_state==0:
-        sleep(0.3)
+        sleep(0.5)
         if flag==0:
+            print(button_state)
             flag=1
         else:
+            print(button_state)
             flag=0
     if flag==1:
         GPIO.output(LED,GPIO.HIGH)
