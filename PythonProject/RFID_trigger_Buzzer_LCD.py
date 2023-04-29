@@ -4,6 +4,7 @@ import threading
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 from RPLCD.i2c import CharLCD
+import socket
 
 reader = SimpleMFRC522()
 lcd = CharLCD('PCF8574', address=0x3f, port=1, backlight_enabled=True)
