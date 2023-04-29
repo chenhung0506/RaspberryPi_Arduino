@@ -76,15 +76,15 @@ def set_angle(angle):
     GPIO.output(servo_pin, False)
     pwm.ChangeDutyCycle(0)
 
-try:
-    # 旋轉伺服馬達
-    set_angle(0)  # 第一次先關門
-    while True:
-        set_angle(90)  # 開門
-        time.sleep(2)
-        # set_angle(180)
-        set_angle(0)  # 關門
-        time.sleep(2)
+    try:
+        # 旋轉伺服馬達
+        set_angle(0)  # 第一次先關門
+        while True:
+            set_angle(90)  # 開門
+            time.sleep(2)
+            # set_angle(180)
+            set_angle(0)  # 關門
+            time.sleep(2)
 
 
 if __name__ == '__main__':
