@@ -9,11 +9,14 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(buzzer_pin, GPIO.OUT)
 
 try:
+    while True:
     print("請將卡靠近讀卡器...")
-    GPIO.output(buzzer_pin, GPIO.HIGH)
-    id, text = reader.read()
     GPIO.output(buzzer_pin, GPIO.LOW)
+    id, text = reader.read()
+    GPIO.output(buzzer_pin, GPIO.HIGH)
     print("ID: %s\nText: %s" % (id, text))
+    time.sleep(0.5)
+    GPIO.output(buzzer_pin, GPIO.LOW)
 
 finally:
     GPIO.cleanup()
