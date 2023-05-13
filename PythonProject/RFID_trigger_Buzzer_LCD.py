@@ -60,7 +60,7 @@ def button_play():
             lcd.write_string(ip)
 
 # 選擇控制伺服馬達的GPIO引腳
-servo_pin = 18
+servo_pin = 11
 
 # 使用BOARD模式
 GPIO2.setmode(GPIO.BOARD)
