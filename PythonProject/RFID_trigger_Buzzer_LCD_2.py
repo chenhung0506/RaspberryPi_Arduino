@@ -61,7 +61,7 @@ def button_play():
             lcd.write_string(ip)
 
 # 選擇控制伺服馬達的GPIO引腳
-servo_pin = 11
+servo_pin = 16
 # 使用BOARD模式
 GPIO2.setmode(GPIO.BOARD)
 GPIO2.setup(servo_pin, GPIO.OUT)
@@ -89,7 +89,7 @@ pwm_2.start(0)
 def set_angle_2(angle):
     duty_cycle = angle / 36 + 2
     GPIO3.output(servo_pin_2, True)
-    pwm_2.ChangeDutyCycle(duty_cycle)
+    pwm_2.ChangeDutyCycle(angle)
     time.sleep(1)
     GPIO3.output(servo_pin_2, False)
     pwm_2.ChangeDutyCycle(0)
@@ -103,7 +103,6 @@ def excute_angle():
             set_angle(90)  # 開門
             set_angle_2(90)  # 開門
             time.sleep(2)
-            # set_angle(180)
             set_angle(0)  # 關門
             set_angle_2(0)  # 關門
             time.sleep(2)
