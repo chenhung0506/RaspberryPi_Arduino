@@ -141,7 +141,6 @@ def excute_angle():
         set_angle(0)  # 第一次先關門
         while True:
             set_angle(90)  # 開門
-            set_angle_2(90)  # 開門
             time.sleep(2)
             set_angle(0)  # 關門
             set_angle_2(0)  # 關門
