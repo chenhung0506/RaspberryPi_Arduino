@@ -121,13 +121,13 @@ def set_angle_2(angle):
     # GPIO3.output(servo_pin_2, False)
     # pwm_2.ChangeDutyCycle(0)
 
-    for i in range(0,181,10):  
+    for i in range(0,91,10):  
         pwm_2.ChangeDutyCycle(2.5 + 10 * i / 180)  
         time.sleep(0.02)                       
         pwm_2.ChangeDutyCycle(0)                    
         time.sleep(0.2)  
 
-    for i in range(181,0,-10):  
+    for i in range(91,0,-10):  
         pwm_2.ChangeDutyCycle(2.5 + 10 * i / 180)  
         time.sleep(0.02)  
         pwm_2.ChangeDutyCycle(0)  
