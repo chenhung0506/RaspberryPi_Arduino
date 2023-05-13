@@ -23,6 +23,33 @@ GPIO.setup(button_pin,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 # LCD clear
 lcd.clear()
 
+# Traffic Light (紅綠燈) PIN -------------------------------------------------------------
+red_pin = 33  # 紅燈
+GPIO.setup(red_pin, GPIO.OUT)
+yellow_pin = 35  # 黃燈
+GPIO.setup(yellow_pin, GPIO.OUT)
+green_pin = 37  # 綠燈
+GPIO.setup(green_pin, GPIO.OUT)
+
+def traffic_light_play():
+    while True:
+        # 綠燈亮 10 秒
+        GPIO.output(green_pin, GPIO.HIGH)
+        GPIO.output(yellow_pin, GPIO.LOW)
+        GPIO.output(red_pin, GPIO.LOW)
+        time.sleep(10)
+        # 黃燈亮 2 秒
+        GPIO.output(green_pin, GPIO.LOW)
+        GPIO.output(yellow_pin, GPIO.HIGH)
+        GPIO.output(red_pin, GPIO.LOW)
+        time.sleep(2)
+        # 紅燈亮 10 秒
+        GPIO.output(green_pin, GPIO.LOW)
+        GPIO.output(yellow_pin, GPIO.LOW)
+        GPIO.output(red_pin, GPIO.HIGH)
+        time.sleep(10)
+
+
 def rfid_play():
     try:
         while True:
@@ -87,7 +114,7 @@ pwm_2 = GPIO3.PWM(servo_pin_2, 50)
 pwm_2.start(0)
 
 def set_angle_2(angle):
-    duty_cycle = angle / 36 + 2
+    # duty_cycle = angle / 36 + 2
     GPIO3.output(servo_pin_2, True)
     pwm_2.ChangeDutyCycle(angle)
     time.sleep(1)
@@ -122,3 +149,5 @@ if __name__ == '__main__':
     t2.start()
     t3 = threading.Thread(target=excute_angle)
     t3.start()
+    t4 = threading.Thread(target=traffic_light_play)
+    t4.start()
