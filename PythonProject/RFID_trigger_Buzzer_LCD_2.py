@@ -64,6 +64,9 @@ def rfid_play():
             time.sleep(0.2)
             GPIO.output(buzzer_pin, GPIO.LOW)
             time.sleep(0.2)  # 在讀取到卡片後等待一段時間
+            
+            # 啟動 Servo & 更新 Servo 在 LCD 上的狀態
+            servo_play_and_lcd_update()
     finally:
         GPIO.cleanup()
 
@@ -96,7 +99,7 @@ GPIO2.setup(servo_pin, GPIO.OUT)
 pwm = GPIO2.PWM(servo_pin, 50)
 pwm.start(0)
 
-def set_angle(angle):
+def set_angle_1(angle):
     duty_cycle = angle / 18 + 2
     GPIO2.output(servo_pin, True)
     pwm.ChangeDutyCycle(duty_cycle)
@@ -121,28 +124,29 @@ def set_angle_2(angle):
     GPIO3.output(servo_pin_2, False)
     pwm_2.ChangeDutyCycle(0)
 
-    # for i in range(0,91,10):  
-    #     pwm_2.ChangeDutyCycle(2.5 + 10 * i / 90)  
-    #     time.sleep(0.02)                       
-    #     pwm_2.ChangeDutyCycle(0)                    
-    #     time.sleep(0.2)  
+def servo_play_and_lcd_update():
+    servo1_play()  # 啟動 Servo1
+    servo2_play()  # 啟動 Servo2
 
-    # for i in range(91,0,-10):  
-    #     pwm_2.ChangeDutyCycle(2.5 + 10 * i / 90)  
-    #     time.sleep(0.02)  
-    #     pwm_2.ChangeDutyCycle(0)  
-    #     time.sleep(0.2) 
+def servo1_play():
+    set_angle_1(95)  # 開門
+    time.sleep(3)  # 停 3 秒
+    set_angle_1(5)  # 關門
 
-
+def servo2_play():
+    # 旋轉伺服馬達
+    set_angle_2(95)  # 開門
+    time.sleep(3)  # 停 3 秒
+    set_angle_2(5)  # 關門
 
 def excute_angle():
     try:
         # 旋轉伺服馬達
-        set_angle(0)  # 第一次先關門
+        set_angle_1(0)  # 第一次先關門
         while True:
-            set_angle(90)  # 開門
+            set_angle_1(90)  # 開門
             time.sleep(2)
-            set_angle(0)  # 關門
+            set_angle_1(0)  # 關門
             set_angle_2(90)  # 關門
             time.sleep(2)
             set_angle_2(0)
@@ -156,11 +160,13 @@ def excute_angle():
 
 
 if __name__ == '__main__':
+    set_angle_1(5)  # Servo1 第一次先關門
+    set_angle_2(5)  # Servo2 第一次先關門
     t1 = threading.Thread(target=rfid_play)
     t1.start()
     t2 = threading.Thread(target=button_play)
     t2.start()
-    t3 = threading.Thread(target=excute_angle)
-    t3.start()
+    # t3 = threading.Thread(target=excute_angle)
+    # t3.start()
     t4 = threading.Thread(target=traffic_light_play)
     t4.start()
