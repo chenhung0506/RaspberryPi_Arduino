@@ -2,8 +2,6 @@ import time
 
 import threading
 import RPi.GPIO as GPIO
-import RPi.GPIO as GPIO2
-import RPi.GPIO as GPIO3
 from mfrc522 import SimpleMFRC522
 from RPLCD.i2c import CharLCD
 import socket
@@ -93,35 +91,35 @@ def button_play():
 # 選擇控制伺服馬達的GPIO引腳
 servo_pin = 16
 # 使用BOARD模式
-GPIO2.setmode(GPIO.BOARD)
-GPIO2.setup(servo_pin, GPIO.OUT)
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(servo_pin, GPIO.OUT)
 # 設置PWM頻率為50Hz
-pwm = GPIO2.PWM(servo_pin, 50)
+pwm = GPIO.PWM(servo_pin, 50)
 pwm.start(0)
 
 def set_angle_1(angle):
     duty_cycle = angle / 18 + 2
-    GPIO2.output(servo_pin, True)
+    GPIO.output(servo_pin, True)
     pwm.ChangeDutyCycle(duty_cycle)
     time.sleep(1)
-    GPIO2.output(servo_pin, False)
+    GPIO.output(servo_pin, False)
     pwm.ChangeDutyCycle(0)
 
 # 選擇控制伺服馬達的GPIO引腳
 servo_pin_2 = 18
 # 使用BOARD模式
-GPIO3.setmode(GPIO.BOARD)
-GPIO3.setup(servo_pin_2, GPIO.OUT)
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(servo_pin_2, GPIO.OUT)
 # 設置PWM頻率為50Hz
-pwm_2 = GPIO3.PWM(servo_pin_2, 50)
+pwm_2 = GPIO.PWM(servo_pin_2, 50)
 pwm_2.start(0)
 
 def set_angle_2(angle):
     duty_cycle = angle / 18 + 2
-    GPIO3.output(servo_pin_2, True)
+    GPIO.output(servo_pin_2, True)
     pwm_2.ChangeDutyCycle(duty_cycle)
     time.sleep(1)
-    GPIO3.output(servo_pin_2, False)
+    GPIO.output(servo_pin_2, False)
     pwm_2.ChangeDutyCycle(0)
 
 def servo_play_and_lcd_update():
