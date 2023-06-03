@@ -29,6 +29,23 @@ GPIO.setup(yellow_pin, GPIO.OUT)
 green_pin = 37  # 綠燈
 GPIO.setup(green_pin, GPIO.OUT)
 
+# 選擇控制伺服馬達的GPIO引腳
+servo_pin = 16
+# 使用BOARD模式
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(servo_pin, GPIO.OUT)
+# 設置PWM頻率為50Hz
+pwm = GPIO.PWM(servo_pin, 50)
+pwm.start(0)
+# 選擇控制伺服馬達的GPIO引腳
+servo_pin_2 = 18
+# 使用BOARD模式
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(servo_pin_2, GPIO.OUT)
+# 設置PWM頻率為50Hz
+pwm_2 = GPIO.PWM(servo_pin_2, 50)
+pwm_2.start(0)
+
 def traffic_light_play():
     while True:
         # 綠燈亮 10 秒
@@ -88,15 +105,6 @@ def button_play():
             lcd.cursor_pos = (0, 0)
             lcd.write_string(ip)
 
-# 選擇控制伺服馬達的GPIO引腳
-servo_pin = 16
-# 使用BOARD模式
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(servo_pin, GPIO.OUT)
-# 設置PWM頻率為50Hz
-pwm = GPIO.PWM(servo_pin, 50)
-pwm.start(0)
-
 def set_angle_1(angle):
     duty_cycle = angle / 18 + 2
     GPIO.output(servo_pin, True)
@@ -104,15 +112,6 @@ def set_angle_1(angle):
     time.sleep(1)
     GPIO.output(servo_pin, False)
     pwm.ChangeDutyCycle(0)
-
-# 選擇控制伺服馬達的GPIO引腳
-servo_pin_2 = 18
-# 使用BOARD模式
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(servo_pin_2, GPIO.OUT)
-# 設置PWM頻率為50Hz
-pwm_2 = GPIO.PWM(servo_pin_2, 50)
-pwm_2.start(0)
 
 def set_angle_2(angle):
     duty_cycle = angle / 18 + 2
