@@ -95,7 +95,6 @@ def rfid_play():
             if leadId == CARD_ID_1 or leadId == CARD_ID_2:
                 try:
                     reader.write(str(count))  # 將累積次數寫入到卡片
-                    servo_play_and_lcd_update(leadId)
                 except:
                     pass
 
@@ -181,8 +180,6 @@ def servo2_play():
     set_angle2(5)  # 關門
 
 if __name__ == '__main__':
-    t0 = threading.Thread(target=set_angle1(5))
-    t0.start()
     set_angle1(5)  # Servo1 第一次先關門
     set_angle2(5)  # Servo2 第一次先關門
     t1 = threading.Thread(target=rfid_play)
