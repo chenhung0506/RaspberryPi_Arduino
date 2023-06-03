@@ -95,6 +95,7 @@ def rfid_play():
             if leadId == CARD_ID_1 or leadId == CARD_ID_2:
                 try:
                     reader.write(str(count))  # 將累積次數寫入到卡片
+                    servo_play_and_lcd_update(leadId)
                 except:
                     pass
 
