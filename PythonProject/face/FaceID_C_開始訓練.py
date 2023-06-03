@@ -4,7 +4,7 @@ import os
 import cv2
 import sys
 import numpy as np
-from face import FaceID_A_參數設定
+import FaceID_A_參數設定
 
 # 定義 walk_files 函式，
 # 傳入參數:directory 指定尋訪目錄, match=’*’ 設定正則表示式做為搜尋比對用

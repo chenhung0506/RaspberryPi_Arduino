@@ -73,7 +73,7 @@ def send_data_to_arduino(data):
 
 def rev_data_from_arduino():
     global ser
-    ser = serial.Serial('/dev/ttyUSB1', 115200)
+    ser = serial.Serial('/dev/ttyUSB0', 115200)
     time.sleep(1)
     while True:
         try:

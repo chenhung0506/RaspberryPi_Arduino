@@ -40,7 +40,7 @@ pwm2.start(0)
 
 # 設定 LCD -------------------------------------------------------------
 reader = SimpleMFRC522()
-lcd = CharLCD('PCF8574', address=0x27, port=1, backlight_enabled=True)
+lcd = CharLCD('PCF8574', address=0x3f, port=1, backlight_enabled=True)
 lcd.clear()  # LCD 清空
 lcd.cursor_pos = (0, 0)
 lcd.write_string("ID:   N:   $:    ")

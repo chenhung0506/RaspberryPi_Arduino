@@ -1,6 +1,6 @@
 # 匯入所需程式庫
 import cv2
-from face import FaceID_A_參數設定
+import FaceID_A_參數設定
 
 # 載入 Config.HAAR_FACES 指定的層疊分類器
 face_cascade = cv2.CascadeClassifier(FaceID_A_參數設定.HAAR_FACES)
