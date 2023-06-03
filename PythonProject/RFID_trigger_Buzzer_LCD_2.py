@@ -21,11 +21,11 @@ GPIO.setup(button_pin,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 # LCD clear
 lcd.clear()
 
-
+GPIO.setup(31, GPIO.OUT)
 GPIO.setup(33, GPIO.OUT)
 GPIO.setup(35, GPIO.OUT)
 GPIO.setup(37, GPIO.OUT)
-GPIO.setup(39, GPIO.OUT)
+
 
 # Traffic Light (紅綠燈) PIN -------------------------------------------------------------
 red_pin = 36  # 紅燈
@@ -162,6 +162,9 @@ def excute_angle():
 def excute_relay():
     try:
         while True:
+            GPIO.output(31, GPIO.HIGH)
+            time.sleep(1)
+            GPIO.output(31, GPIO.LOW)
             GPIO.output(33, GPIO.HIGH)
             time.sleep(1)
             GPIO.output(33, GPIO.LOW)
@@ -171,9 +174,7 @@ def excute_relay():
             GPIO.output(37, GPIO.HIGH)
             time.sleep(1)
             GPIO.output(37, GPIO.LOW)
-            GPIO.output(39, GPIO.HIGH)
-            time.sleep(1)
-            GPIO.output(39, GPIO.LOW)
+
     finally:
         GPIO.cleanup()
 
