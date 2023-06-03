@@ -22,11 +22,11 @@ GPIO.setup(button_pin,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 lcd.clear()
 
 # Traffic Light (紅綠燈) PIN -------------------------------------------------------------
-red_pin = 33  # 紅燈
+red_pin = 36  # 紅燈
 GPIO.setup(red_pin, GPIO.OUT)
-yellow_pin = 35  # 黃燈
+yellow_pin = 38  # 黃燈
 GPIO.setup(yellow_pin, GPIO.OUT)
-green_pin = 37  # 綠燈
+green_pin = 40  # 綠燈
 GPIO.setup(green_pin, GPIO.OUT)
 
 # 選擇控制伺服馬達的GPIO引腳
