@@ -143,8 +143,9 @@ def excute_angle():
             set_angle(90)  # 開門
             time.sleep(2)
             set_angle(0)  # 關門
-            set_angle_2(0)  # 關門
+            set_angle_2(90)  # 關門
             time.sleep(2)
+            set_angle_2(0)
 
     finally:
         pwm.stop()
