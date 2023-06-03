@@ -114,24 +114,24 @@ pwm_2 = GPIO3.PWM(servo_pin_2, 50)
 pwm_2.start(0)
 
 def set_angle_2(angle):
-    # # duty_cycle = angle / 36 + 2
-    # GPIO3.output(servo_pin_2, True)
-    # pwm_2.ChangeDutyCycle(angle)
-    # time.sleep(1)
-    # GPIO3.output(servo_pin_2, False)
-    # pwm_2.ChangeDutyCycle(0)
+    # duty_cycle = angle / 36 + 2
+    GPIO3.output(servo_pin_2, True)
+    pwm_2.ChangeDutyCycle(angle)
+    time.sleep(1)
+    GPIO3.output(servo_pin_2, False)
+    pwm_2.ChangeDutyCycle(0)
 
-    for i in range(0,91,10):  
-        pwm_2.ChangeDutyCycle(2.5 + 10 * i / 90)  
-        time.sleep(0.02)                       
-        pwm_2.ChangeDutyCycle(0)                    
-        time.sleep(0.2)  
+    # for i in range(0,91,10):  
+    #     pwm_2.ChangeDutyCycle(2.5 + 10 * i / 90)  
+    #     time.sleep(0.02)                       
+    #     pwm_2.ChangeDutyCycle(0)                    
+    #     time.sleep(0.2)  
 
-    for i in range(91,0,-10):  
-        pwm_2.ChangeDutyCycle(2.5 + 10 * i / 90)  
-        time.sleep(0.02)  
-        pwm_2.ChangeDutyCycle(0)  
-        time.sleep(0.2) 
+    # for i in range(91,0,-10):  
+    #     pwm_2.ChangeDutyCycle(2.5 + 10 * i / 90)  
+    #     time.sleep(0.02)  
+    #     pwm_2.ChangeDutyCycle(0)  
+    #     time.sleep(0.2) 
 
 
 
