@@ -21,6 +21,12 @@ GPIO.setup(button_pin,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 # LCD clear
 lcd.clear()
 
+
+GPIO.setup(33, GPIO.OUT)
+GPIO.setup(35, GPIO.OUT)
+GPIO.setup(37, GPIO.OUT)
+GPIO.setup(39, GPIO.OUT)
+
 # Traffic Light (紅綠燈) PIN -------------------------------------------------------------
 red_pin = 36  # 紅燈
 GPIO.setup(red_pin, GPIO.OUT)
@@ -153,8 +159,23 @@ def excute_angle():
         pwm_2.stop()
         GPIO.cleanup()
 
-
-
+def excute_relay():
+    try:
+        while True:
+            GPIO.output(33, GPIO.HIGH)
+            time.sleep(1)
+            GPIO.output(33, GPIO.LOW)
+            GPIO.output(35, GPIO.HIGH)
+            time.sleep(1)
+            GPIO.output(35, GPIO.LOW)
+            GPIO.output(37, GPIO.HIGH)
+            time.sleep(1)
+            GPIO.output(37, GPIO.LOW)
+            GPIO.output(39, GPIO.HIGH)
+            time.sleep(1)
+            GPIO.output(39, GPIO.LOW)
+    finally:
+        GPIO.cleanup()
 
 if __name__ == '__main__':
     set_angle_1(5)  # Servo1 第一次先關門
@@ -167,3 +188,5 @@ if __name__ == '__main__':
     # t3.start()
     t4 = threading.Thread(target=traffic_light_play)
     t4.start()
+    t5 = threading.Thread(target=excute_relay)
+    t5.start()
