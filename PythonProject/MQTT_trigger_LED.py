@@ -11,44 +11,23 @@ import socket
 
 GPIO.setwarnings(False)
 button_pin = 31
-
+led_1 = 35
 GPIO.setmode(GPIO.BOARD)  # GPIO.BOARD, 使用BOARD模式
 #Setup Button
 GPIO.setup(button_pin,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 
-# GPIO.setup(31, GPIO.OUT)
+GPIO.setup(button_pin, GPIO.OUT)
 # GPIO.setup(33, GPIO.OUT)
-# GPIO.setup(35, GPIO.OUT)
+GPIO.setup(led_1, GPIO.OUT)
 # GPIO.setup(37, GPIO.OUT)
 
-
-
-
-# def excute_relay():
-#     try:
-#         while True:
-#             GPIO.output(31, GPIO.HIGH)
-#             time.sleep(1)
-#             GPIO.output(31, GPIO.LOW)
-#             GPIO.output(33, GPIO.HIGH)
-#             time.sleep(1)
-#             GPIO.output(33, GPIO.LOW)
-#             GPIO.output(35, GPIO.HIGH)
-#             time.sleep(1)
-#             GPIO.output(35, GPIO.LOW)
-#             GPIO.output(37, GPIO.HIGH)
-#             time.sleep(1)
-#             GPIO.output(37, GPIO.LOW)
-
-#     finally:
-#         GPIO.cleanup()
 
 
 def button_control_led():
     flag = 0
     try:
         while True:
-            button_state = GPIO.input(31)
+            button_state = GPIO.input(button_pin)
             if button_state==0:
                 time.sleep(0.5)
                 if flag==0:
@@ -58,9 +37,9 @@ def button_control_led():
                     print(button_state)
                     flag=0
             if flag==1:
-                GPIO.output(35,GPIO.HIGH)
+                GPIO.output(led_1,GPIO.HIGH)
             else:
-                GPIO.output(35,GPIO.LOW)  
+                GPIO.output(led_1,GPIO.LOW)  
     finally:
         GPIO.cleanup()
 
