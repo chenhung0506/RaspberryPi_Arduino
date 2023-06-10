@@ -69,33 +69,15 @@ def button_control_led_2():
                 GPIO.output(LED_PIN_2,GPIO.LOW)  
     finally:
         GPIO.cleanup()
-
-def control_led_1(input):
-    # flag = 0
-    # if input==0:
-    #     if flag==0:
-    #         print(input)
-    #         flag=1
-    #     else:
-    #         print(input)
-    #         flag=0
-    if input==1:
-        GPIO.output(LED_PIN_1,GPIO.HIGH)
-    else:
-        GPIO.output(LED_PIN_1,GPIO.LOW)    
         
-
-# 當地端程式連線伺服器得到回應時，要做的動作
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
     client.subscribe("pi")
 
-# 當接收到從伺服器發送的訊息時要進行的動作
 def on_message(client, userdata, msg):
-    # 轉換編碼utf-8才看得懂中文
     data = msg.payload.decode('utf-8')
     print(msg.topic+" "+ data)
-    if data == 'ON':
+    if data == '1':
         GPIO.output(LED_PIN_1, GPIO.HIGH)
     else:
         GPIO.output(LED_PIN_1, GPIO.LOW)
@@ -113,10 +95,9 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         pass
 
-    # Disconnect from the MQTT broker
     client.disconnect()
 
-    # t6 = threading.Thread(target=button_control_led_1)
-    # t6.start()
-    # t6 = threading.Thread(target=button_control_led_2)
-    # t6.start()
+    t6 = threading.Thread(target=button_control_led_1)
+    t6.start()
+    t6 = threading.Thread(target=button_control_led_2)
+    t6.start()
