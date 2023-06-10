@@ -71,12 +71,11 @@ def button_control_led_2():
         GPIO.cleanup()
 
 if __name__ == '__main__':
-    # Callback function for when a new message is received
+    GPIO.output(LED_PIN_1,GPIO.HIGH)
     flag=0
     def on_message(client, userdata, msg):
         msg_str = str(msg.payload.decode())
         print("Received message: " + msg_str)
-        # while True:
         button_state_1 = msg_str
         if button_state_1==1:
             GPIO.output(LED_PIN_2,GPIO.HIGH)
