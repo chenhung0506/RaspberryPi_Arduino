@@ -44,8 +44,8 @@ GPIO.setup(button_pin,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 #         GPIO.cleanup()
 
 
-flag = 0
 def button_control_led():
+    flag = 0
     try:
         while True:
             button_state = GPIO.input(31)
