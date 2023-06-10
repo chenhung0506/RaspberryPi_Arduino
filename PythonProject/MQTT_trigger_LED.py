@@ -72,13 +72,18 @@ def button_control_led_2():
 
 if __name__ == '__main__':
     # Callback function for when a new message is received
+    flag=0
     def on_message(client, userdata, msg):
-        print("Received message: " + str(msg.payload.decode()))
-        # if msg==1:
-        GPIO.output(LED_PIN_2,GPIO.HIGH)
-        # else:
-            # GPIO.output(LED_PIN_2,GPIO.LOW) 
-            
+        msg_str = str(msg.payload.decode())
+        print("Received message: " + msg_str)
+
+        while True:
+            button_state_1 = msg_str
+            if button_state_1==1:
+                GPIO.output(LED_PIN_2,GPIO.HIGH)
+            else:
+                GPIO.output(LED_PIN_2,GPIO.LOW)  
+
 
     # Create an MQTT client instance
     client = mqtt.Client()
