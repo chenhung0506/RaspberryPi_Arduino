@@ -35,16 +35,14 @@ def button_control_led_1():
         while True:
             button_state = GPIO.input(Button_PIN_1)
             if button_state==0:
-                # time.sleep(0.5)
+                time.sleep(0.2)
                 if flag==0:
                     print(button_state)
                     client.publish("relay1", "1")
-                    time.sleep(0.1)
                     flag=1
                 else:
                     print(button_state)
                     client.publish("relay1", "0")
-                    time.sleep(0.1)
                     flag=0
             # if flag==1:
             #     GPIO.output(LED_PIN_1,GPIO.HIGH)
@@ -59,7 +57,7 @@ def button_control_led_2():
         while True:
             button_state = GPIO.input(Button_PIN_2)
             if button_state==0:
-                # time.sleep(0.5)
+                time.sleep(0.2)
                 if flag==0:
                     print(button_state)
                     client.publish("relay1", "2")
