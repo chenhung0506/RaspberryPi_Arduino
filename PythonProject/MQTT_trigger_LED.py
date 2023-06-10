@@ -10,15 +10,13 @@ import socket
 # lcd = CharLCD('PCF8574', address=0x3f, port=1, backlight_enabled=True)
 
 GPIO.setwarnings(False)
-button_pin = 31
-led_1 = 35
+Button_PIN = 31
+LED_PIN = 35
 GPIO.setmode(GPIO.BOARD)  # GPIO.BOARD, 使用BOARD模式
 #Setup Button
-GPIO.setup(button_pin,GPIO.IN,pull_up_down=GPIO.PUD_UP)
-
-GPIO.setup(button_pin, GPIO.OUT)
+GPIO.setup(Button_PIN,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 # GPIO.setup(33, GPIO.OUT)
-GPIO.setup(led_1, GPIO.OUT)
+GPIO.setup(LED_PIN, GPIO.OUT)
 # GPIO.setup(37, GPIO.OUT)
 
 
@@ -27,7 +25,7 @@ def button_control_led():
     flag = 0
     try:
         while True:
-            button_state = GPIO.input(button_pin)
+            button_state = GPIO.input(Button_PIN)
             if button_state==0:
                 time.sleep(0.5)
                 if flag==0:
@@ -37,9 +35,9 @@ def button_control_led():
                     print(button_state)
                     flag=0
             if flag==1:
-                GPIO.output(led_1,GPIO.HIGH)
+                GPIO.output(LED_PIN,GPIO.HIGH)
             else:
-                GPIO.output(led_1,GPIO.LOW)  
+                GPIO.output(LED_PIN,GPIO.LOW)  
     finally:
         GPIO.cleanup()
 
