@@ -10,38 +10,58 @@ import socket
 # lcd = CharLCD('PCF8574', address=0x3f, port=1, backlight_enabled=True)
 
 GPIO.setwarnings(False)
-Button_PIN = 31
-LED_PIN = 35
+Button_PIN_1 = 31
+Button_PIN_2 = 33
+LED_PIN_1 = 35
+LED_PIN_2 = 37
 GPIO.setmode(GPIO.BOARD)  # GPIO.BOARD, 使用BOARD模式
-#Setup Button
-GPIO.setup(Button_PIN,GPIO.IN,pull_up_down=GPIO.PUD_UP)
-# GPIO.setup(33, GPIO.OUT)
-GPIO.setup(LED_PIN, GPIO.OUT)
-# GPIO.setup(37, GPIO.OUT)
+GPIO.setup(Button_PIN_1,GPIO.IN,pull_up_down=GPIO.PUD_UP)
+GPIO.setup(Button_PIN_2,GPIO.IN,pull_up_down=GPIO.PUD_UP)
+GPIO.setup(LED_PIN_1, GPIO.OUT)
+GPIO.setup(LED_PIN_2, GPIO.OUT)
 
-
-
-def button_control_led():
+def button_control_led_1():
     flag = 0
     try:
         while True:
-            button_state = GPIO.input(Button_PIN)
-            if button_state==0:
+            button_state_1 = GPIO.input(Button_PIN_1)
+            if button_state_1==0:
                 time.sleep(0.5)
                 if flag==0:
-                    print(button_state)
+                    print(button_state_1)
                     flag=1
                 else:
-                    print(button_state)
+                    print(button_state_1)
                     flag=0
             if flag==1:
-                GPIO.output(LED_PIN,GPIO.HIGH)
+                GPIO.output(LED_PIN_1,GPIO.HIGH)
             else:
-                GPIO.output(LED_PIN,GPIO.LOW)  
+                GPIO.output(LED_PIN_1,GPIO.LOW)  
+    finally:
+        GPIO.cleanup()
+        
+def button_control_led_2():
+    flag = 0
+    try:
+        while True:
+            button_state_1 = GPIO.input(Button_PIN_2)
+            if button_state_1==0:
+                time.sleep(0.5)
+                if flag==0:
+                    print(button_state_1)
+                    flag=1
+                else:
+                    print(button_state_1)
+                    flag=0
+            if flag==1:
+                GPIO.output(LED_PIN_2,GPIO.HIGH)
+            else:
+                GPIO.output(LED_PIN_2,GPIO.LOW)  
     finally:
         GPIO.cleanup()
 
 if __name__ == '__main__':
-    t6 = threading.Thread(target=button_control_led)
+    t6 = threading.Thread(target=button_control_led_1)
     t6.start()
-    
+    t6 = threading.Thread(target=button_control_led_2)
+    t6.start()
