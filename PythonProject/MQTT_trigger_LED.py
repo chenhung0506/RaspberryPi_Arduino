@@ -70,8 +70,18 @@ def button_control_led_2():
     finally:
         GPIO.cleanup()
 
-def control_led_1(boolen):
-    if boolen==1:
+def control_led_1(input):
+    flag = 0
+    print(input)
+    if input==0:
+        time.sleep(0.5)
+        if flag==0:
+            print(input)
+            flag=1
+        else:
+            print(input)
+            flag=0
+    if flag==1:
         GPIO.output(LED_PIN_1,GPIO.HIGH)
     else:
         GPIO.output(LED_PIN_1,GPIO.LOW)    
