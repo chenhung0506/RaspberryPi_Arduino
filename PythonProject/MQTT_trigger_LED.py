@@ -83,17 +83,25 @@ def control_led_1(input):
         GPIO.output(LED_PIN_1,GPIO.HIGH)
     else:
         GPIO.output(LED_PIN_1,GPIO.LOW)    
+        
+
+# 當地端程式連線伺服器得到回應時，要做的動作
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code "+str(rc))
+    client.subscribe("pi")
+
+# 當接收到從伺服器發送的訊息時要進行的動作
+def on_message(client, userdata, msg):
+    # 轉換編碼utf-8才看得懂中文
+    data = msg.payload.decode('utf-8')
+    print(msg.topic+" "+ data)
+    if data == 'ON':
+        GPIO.output(LED_PIN_1, GPIO.HIGH)
+    else:
+        GPIO.output(LED_PIN_1, GPIO.LOW)
+
 
 if __name__ == '__main__':
-    control_led_1(1)
-    flag=0
-    def on_message(client, userdata, msg):
-        msg_str = str(msg.payload.decode())
-        print("Received message: " + msg_str)
-        control_led_1(msg_str)
-        # control_led_1(0)
-
-
     client = mqtt.Client()
     client.on_message = on_message
     client.connect(broker_address, broker_port)
