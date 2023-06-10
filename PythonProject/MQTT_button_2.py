@@ -21,7 +21,6 @@ GPIO.setup(Button_PIN_2,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 GPIO.setup(LED_PIN_1, GPIO.OUT)
 GPIO.setup(LED_PIN_2, GPIO.OUT)
 
-
 # MQTT broker details
 broker_address = "127.0.0.1"
 broker_port = 1883
@@ -39,14 +38,18 @@ def button_control_led_1():
                 time.sleep(0.5)
                 if flag==0:
                     print(button_state_1)
+                    client.publish("relay1", "1")
+                    time.sleep(0.1)
                     flag=1
                 else:
                     print(button_state_1)
+                    client.publish("relay1", "0")
+                    time.sleep(0.1)
                     flag=0
-            if flag==1:
-                GPIO.output(LED_PIN_1,GPIO.HIGH)
-            else:
-                GPIO.output(LED_PIN_1,GPIO.LOW)  
+            # if flag==1:
+            #     GPIO.output(LED_PIN_1,GPIO.HIGH)
+            # else:
+            #     GPIO.output(LED_PIN_1,GPIO.LOW)  
     finally:
         GPIO.cleanup()
         
@@ -59,9 +62,11 @@ def button_control_led_2():
                 time.sleep(0.5)
                 if flag==0:
                     print(button_state_1)
+                    client.publish("relay1", "1")
                     flag=1
                 else:
                     print(button_state_1)
+                    client.publish("relay1", "0")
                     flag=0
             if flag==1:
                 GPIO.output(LED_PIN_2,GPIO.HIGH)
@@ -69,35 +74,33 @@ def button_control_led_2():
                 GPIO.output(LED_PIN_2,GPIO.LOW)  
     finally:
         GPIO.cleanup()
-
+        
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+    print(f"Connected with result code {rc}")
     client.subscribe("pi")
 
 def on_message(client, userdata, msg):
-    data = msg.payload.decode('utf-8')
-    print(msg.topic+" "+ data)
-    if data == '1':
-        GPIO.output(LED_PIN_1, GPIO.HIGH)
-    else:
-        GPIO.output(LED_PIN_1, GPIO.LOW)
+    print(f"{msg.topic}: {msg.payload.decode()}")
+
 
 
 if __name__ == '__main__':
-    client = mqtt.Client()
-    client.on_message = on_message
-    client.connect(broker_address, broker_port)
-    client.subscribe(topic)
-    client.loop_start()
-    try:
-        while True:
-            pass
-    except KeyboardInterrupt:
-        pass
-
-    client.disconnect()
-
     t6 = threading.Thread(target=button_control_led_1)
     t6.start()
     t6 = threading.Thread(target=button_control_led_2)
     t6.start()
+
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message
+    client.connect(broker_address, broker_port, 60)
+    client.loop_start()
+
+    try:
+        while True:
+            pass
+    except KeyboardInterrupt:
+        print("Exiting...")
+
+    client.loop_stop()
+    client.disconnect()
