@@ -72,9 +72,7 @@ def button_control_led_2():
 
 def control_led_1(input):
     flag = 0
-    print(input)
     if input==0:
-        time.sleep(0.5)
         if flag==0:
             print(input)
             flag=1
@@ -87,12 +85,13 @@ def control_led_1(input):
         GPIO.output(LED_PIN_1,GPIO.LOW)    
 
 if __name__ == '__main__':
-    control_led_1(1)
+    control_led_1(0)
     flag=0
     def on_message(client, userdata, msg):
         msg_str = str(msg.payload.decode())
         print("Received message: " + msg_str)
         control_led_1(msg_str)
+        control_led_1(0)
 
 
     # Create an MQTT client instance
