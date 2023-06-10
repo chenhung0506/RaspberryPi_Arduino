@@ -71,45 +71,34 @@ def button_control_led_2():
         GPIO.cleanup()
 
 def control_led_1(input):
-    flag = 0
-    if input==0:
-        if flag==0:
-            print(input)
-            flag=1
-        else:
-            print(input)
-            flag=0
+    # flag = 0
+    # if input==0:
+    #     if flag==0:
+    #         print(input)
+    #         flag=1
+    #     else:
+    #         print(input)
+    #         flag=0
     if flag==1:
         GPIO.output(LED_PIN_1,GPIO.HIGH)
     else:
         GPIO.output(LED_PIN_1,GPIO.LOW)    
 
 if __name__ == '__main__':
-    control_led_1(0)
+    control_led_1(1)
     flag=0
     def on_message(client, userdata, msg):
         msg_str = str(msg.payload.decode())
         print("Received message: " + msg_str)
         control_led_1(msg_str)
-        control_led_1(0)
+        # control_led_1(0)
 
 
-    # Create an MQTT client instance
     client = mqtt.Client()
-
-    # Set the callback function for message reception
     client.on_message = on_message
-
-    # Connect to the MQTT broker
     client.connect(broker_address, broker_port)
-
-    # Subscribe to the topic
     client.subscribe(topic)
-
-    # Start the MQTT client loop to continuously check for new messages
     client.loop_start()
-
-    # Keep the script running until interrupted
     try:
         while True:
             pass
