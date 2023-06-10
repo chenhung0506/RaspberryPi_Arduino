@@ -27,39 +27,7 @@ broker_address = "127.0.0.1"
 broker_port = 1883
 topic = "relay1"
 
-# Callback function for when a new message is received
-def on_message(client, userdata, msg):
-    print("Received message: " + str(msg.payload.decode()))
-    if msg==1:
-        GPIO.output(LED_PIN_2,GPIO.HIGH)
-    else:
-        GPIO.output(LED_PIN_2,GPIO.LOW) 
-        
 
-# Create an MQTT client instance
-client = mqtt.Client()
-
-# Set the callback function for message reception
-client.on_message = on_message
-
-# Connect to the MQTT broker
-client.connect(broker_address, broker_port)
-
-# Subscribe to the topic
-client.subscribe(topic)
-
-# Start the MQTT client loop to continuously check for new messages
-client.loop_start()
-
-# Keep the script running until interrupted
-try:
-    while True:
-        pass
-except KeyboardInterrupt:
-    pass
-
-# Disconnect from the MQTT broker
-client.disconnect()
 
 
 def button_control_led_1():
@@ -103,6 +71,40 @@ def button_control_led_2():
         GPIO.cleanup()
 
 if __name__ == '__main__':
+    # Callback function for when a new message is received
+    def on_message(client, userdata, msg):
+        print("Received message: " + str(msg.payload.decode()))
+        if msg==1:
+            GPIO.output(LED_PIN_2,GPIO.HIGH)
+        else:
+            GPIO.output(LED_PIN_2,GPIO.LOW) 
+            
+
+    # Create an MQTT client instance
+    client = mqtt.Client()
+
+    # Set the callback function for message reception
+    client.on_message = on_message
+
+    # Connect to the MQTT broker
+    client.connect(broker_address, broker_port)
+
+    # Subscribe to the topic
+    client.subscribe(topic)
+
+    # Start the MQTT client loop to continuously check for new messages
+    client.loop_start()
+
+    # Keep the script running until interrupted
+    try:
+        while True:
+            pass
+    except KeyboardInterrupt:
+        pass
+
+    # Disconnect from the MQTT broker
+    client.disconnect()
+
     t6 = threading.Thread(target=button_control_led_1)
     t6.start()
     t6 = threading.Thread(target=button_control_led_2)
