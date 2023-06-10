@@ -74,10 +74,10 @@ if __name__ == '__main__':
     # Callback function for when a new message is received
     def on_message(client, userdata, msg):
         print("Received message: " + str(msg.payload.decode()))
-        if msg==1:
-            GPIO.output(LED_PIN_2,GPIO.HIGH)
-        else:
-            GPIO.output(LED_PIN_2,GPIO.LOW) 
+        # if msg==1:
+        GPIO.output(LED_PIN_2,GPIO.HIGH)
+        # else:
+            # GPIO.output(LED_PIN_2,GPIO.LOW) 
             
 
     # Create an MQTT client instance
@@ -105,7 +105,7 @@ if __name__ == '__main__':
     # Disconnect from the MQTT broker
     client.disconnect()
 
-    t6 = threading.Thread(target=button_control_led_1)
-    t6.start()
-    t6 = threading.Thread(target=button_control_led_2)
-    t6.start()
+    # t6 = threading.Thread(target=button_control_led_1)
+    # t6.start()
+    # t6 = threading.Thread(target=button_control_led_2)
+    # t6.start()
