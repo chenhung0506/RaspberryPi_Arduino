@@ -2,6 +2,7 @@ import time
 
 import threading
 import RPi.GPIO as GPIO
+import paho.mqtt.client as mqtt
 from mfrc522 import SimpleMFRC522
 from RPLCD.i2c import CharLCD
 import socket
@@ -19,6 +20,47 @@ GPIO.setup(Button_PIN_1,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 GPIO.setup(Button_PIN_2,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 GPIO.setup(LED_PIN_1, GPIO.OUT)
 GPIO.setup(LED_PIN_2, GPIO.OUT)
+
+
+# MQTT broker details
+broker_address = "127.0.0.1"
+broker_port = 1883
+topic = "relay1"
+
+# Callback function for when a new message is received
+def on_message(client, userdata, msg):
+    print("Received message: " + str(msg.payload.decode()))
+    if msg==1:
+        GPIO.output(LED_PIN_2,GPIO.HIGH)
+    else:
+        GPIO.output(LED_PIN_2,GPIO.LOW) 
+        
+
+# Create an MQTT client instance
+client = mqtt.Client()
+
+# Set the callback function for message reception
+client.on_message = on_message
+
+# Connect to the MQTT broker
+client.connect(broker_address, broker_port)
+
+# Subscribe to the topic
+client.subscribe(topic)
+
+# Start the MQTT client loop to continuously check for new messages
+client.loop_start()
+
+# Keep the script running until interrupted
+try:
+    while True:
+        pass
+except KeyboardInterrupt:
+    pass
+
+# Disconnect from the MQTT broker
+client.disconnect()
+
 
 def button_control_led_1():
     flag = 0
