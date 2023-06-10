@@ -79,7 +79,7 @@ def control_led_1(input):
     #     else:
     #         print(input)
     #         flag=0
-    if flag==1:
+    if input==1:
         GPIO.output(LED_PIN_1,GPIO.HIGH)
     else:
         GPIO.output(LED_PIN_1,GPIO.LOW)    
