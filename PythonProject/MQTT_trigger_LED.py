@@ -10,21 +10,18 @@ reader = SimpleMFRC522()
 lcd = CharLCD('PCF8574', address=0x3f, port=1, backlight_enabled=True)
 
 GPIO.setwarnings(False)
-button_pin = 32
+button_pin = 31
 
-# 設置蜂鳴器引腳和模式
-buzzer_pin = 12  # 根據BOARD模式，將BCM 18對應的引腳更改為12
 GPIO.setmode(GPIO.BOARD)  # GPIO.BOARD, 使用BOARD模式
-GPIO.setup(buzzer_pin, GPIO.OUT)
 #Setup Button
 GPIO.setup(button_pin,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 # LCD clear
 lcd.clear()
 
-GPIO.setup(31, GPIO.OUT)
-GPIO.setup(33, GPIO.OUT)
-GPIO.setup(35, GPIO.OUT)
-GPIO.setup(37, GPIO.OUT)
+# GPIO.setup(31, GPIO.OUT)
+# GPIO.setup(33, GPIO.OUT)
+# GPIO.setup(35, GPIO.OUT)
+# GPIO.setup(37, GPIO.OUT)
 
 
 
@@ -51,20 +48,23 @@ GPIO.setup(37, GPIO.OUT)
 
 flag = 0
 def button_control_led():
-    while True:
-        button_state = GPIO.input(31)
-        if button_state==0:
-            time.sleep(0.5)
-            if flag==0:
-                print(button_state)
-                flag=1
+    try:
+        while True:
+            button_state = GPIO.input(31)
+            if button_state==0:
+                time.sleep(0.5)
+                if flag==0:
+                    print(button_state)
+                    flag=1
+                else:
+                    print(button_state)
+                    flag=0
+            if flag==1:
+                GPIO.output(35,GPIO.HIGH)
             else:
-                print(button_state)
-                flag=0
-        if flag==1:
-            GPIO.output(35,GPIO.HIGH)
-        else:
-            GPIO.output(35,GPIO.LOW)  
+                GPIO.output(35,GPIO.LOW)  
+    finally:
+        GPIO.cleanup()
 
 if __name__ == '__main__':
     t6 = threading.Thread(target=button_control_led)
