@@ -15,8 +15,6 @@ button_pin = 31
 GPIO.setmode(GPIO.BOARD)  # GPIO.BOARD, 使用BOARD模式
 #Setup Button
 GPIO.setup(button_pin,GPIO.IN,pull_up_down=GPIO.PUD_UP)
-# LCD clear
-lcd.clear()
 
 # GPIO.setup(31, GPIO.OUT)
 # GPIO.setup(33, GPIO.OUT)
