@@ -79,8 +79,13 @@ def on_message(client, userdata, msg):
     print(msg.topic+" "+ data)
     if data == '1':
         GPIO.output(LED_PIN_1, GPIO.HIGH)
-    else:
+    elif data == '0':
         GPIO.output(LED_PIN_1, GPIO.LOW)
+    elif data == '3':
+        GPIO.output(LED_PIN_2, GPIO.HIGH)
+    elif data == '2':
+        GPIO.output(LED_PIN_2, GPIO.LOW)
+
 
 
 if __name__ == '__main__':
