@@ -82,8 +82,7 @@ if __name__ == '__main__':
     def on_message(client, userdata, msg):
         msg_str = str(msg.payload.decode())
         print("Received message: " + msg_str)
-        button_state_1 = msg_str
-        control_led_1(0)
+        control_led_1(msg_str)
 
 
     # Create an MQTT client instance
