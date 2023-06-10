@@ -76,13 +76,12 @@ if __name__ == '__main__':
     def on_message(client, userdata, msg):
         msg_str = str(msg.payload.decode())
         print("Received message: " + msg_str)
-
-        while True:
-            button_state_1 = msg_str
-            if button_state_1==1:
-                GPIO.output(LED_PIN_2,GPIO.HIGH)
-            else:
-                GPIO.output(LED_PIN_2,GPIO.LOW)  
+        # while True:
+        button_state_1 = msg_str
+        if button_state_1==1:
+            GPIO.output(LED_PIN_2,GPIO.HIGH)
+        else:
+            GPIO.output(LED_PIN_2,GPIO.LOW)  
 
 
     # Create an MQTT client instance
