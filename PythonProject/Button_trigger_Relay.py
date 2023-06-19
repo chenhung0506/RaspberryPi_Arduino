@@ -16,15 +16,23 @@ buzzer_pin = 12  # 根據BOARD模式，將BCM 18對應的引腳更改為12
 GPIO.setmode(GPIO.BOARD)  # GPIO.BOARD, 使用BOARD模式
 GPIO.setup(buzzer_pin, GPIO.OUT)
 #Setup Button
-button_pin = 32
+button_pin = 29
+button_1 = 31
+button_2 = 33
+button_3 = 35
+button_4 = 37
 GPIO.setup(button_pin,GPIO.IN,pull_up_down=GPIO.PUD_UP)
+GPIO.setup(button_1,GPIO.IN,pull_up_down=GPIO.PUD_UP)
+GPIO.setup(button_2,GPIO.IN,pull_up_down=GPIO.PUD_UP)
+GPIO.setup(button_3,GPIO.IN,pull_up_down=GPIO.PUD_UP)
+GPIO.setup(button_4,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 # LCD clear
 lcd.clear()
 
-relay_1=31
-relay_2=33
-relay_3=35
-relay_4=37
+relay_1=7
+relay_2=11
+relay_3=13
+relay_4=15
 
 GPIO.setup(relay_1, GPIO.OUT)
 GPIO.setup(relay_2, GPIO.OUT)
@@ -70,14 +78,101 @@ def rfid_play():
 
 
 def button_play():
+    flag = 0
     while True:
         time.sleep(0.5)
         # 按下 button 將 LCD 螢幕清空
-        button_state = GPIO.input(button_pin)
-        print(button_state)
-        if button_state == 0:
-            lcd.cursor_pos = (1, 0)
-            lcd.write_string(ip)
+        button_state_0 = GPIO.input(button_pin)
+        if button_state_0 == 0:
+            time.sleep(0.5)
+            if flag==0:
+                print(button_state_0)
+                flag=1
+                lcd.cursor_pos = (1, 0)
+                lcd.write_string(ip)
+            else:
+                print(button_state_0)
+                flag=0
+
+def button_control_led_1():
+    flag = 0
+    try:
+        while True:
+            button_state_1 = GPIO.input(button_1)
+            if button_state_1==0:
+                time.sleep(0.5)
+                if flag==0:
+                    print(button_state_1)
+                    flag=1
+                else:
+                    print(button_state_1)
+                    flag=0
+            if flag==1:
+                GPIO.output(relay_1,GPIO.HIGH)
+            else:
+                GPIO.output(relay_1,GPIO.LOW)  
+    finally:
+        GPIO.cleanup()
+        
+def button_control_led_2():
+    flag = 0
+    try:
+        while True:
+            button_state_1 = GPIO.input(button_2)
+            if button_state_1==0:
+                time.sleep(0.5)
+                if flag==0:
+                    print(button_state_1)
+                    flag=1
+                else:
+                    print(button_state_1)
+                    flag=0
+            if flag==1:
+                GPIO.output(relay_2,GPIO.HIGH)
+            else:
+                GPIO.output(relay_2,GPIO.LOW)  
+    finally:
+        GPIO.cleanup()
+
+def button_control_led_3():
+    flag = 0
+    try:
+        while True:
+            button_state_1 = GPIO.input(button_3)
+            if button_state_1==0:
+                time.sleep(0.5)
+                if flag==0:
+                    print(button_state_1)
+                    flag=1
+                else:
+                    print(button_state_1)
+                    flag=0
+            if flag==1:
+                GPIO.output(relay_3,GPIO.HIGH)
+            else:
+                GPIO.output(relay_3,GPIO.LOW)  
+    finally:
+        GPIO.cleanup()
+        
+def button_control_led_4():
+    flag = 0
+    try:
+        while True:
+            button_state_1 = GPIO.input(button_4)
+            if button_state_1==0:
+                time.sleep(0.5)
+                if flag==0:
+                    print(button_state_1)
+                    flag=1
+                else:
+                    print(button_state_1)
+                    flag=0
+            if flag==1:
+                GPIO.output(relay_4,GPIO.HIGH)
+            else:
+                GPIO.output(relay_4,GPIO.LOW)  
+    finally:
+        GPIO.cleanup()
 
 def excute_relay():
     try:
@@ -111,3 +206,13 @@ if __name__ == '__main__':
 
     t5 = threading.Thread(target=excute_relay)
     t5.start()
+
+    
+    t6 = threading.Thread(target=button_control_led_1)
+    t6.start()
+    t7 = threading.Thread(target=button_control_led_2)
+    t7.start()
+    t8 = threading.Thread(target=button_control_led_3)
+    t8.start()
+    t9 = threading.Thread(target=button_control_led_4)
+    t9.start()
