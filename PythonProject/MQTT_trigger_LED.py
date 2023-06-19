@@ -73,6 +73,10 @@ def button_control_led_2():
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
     client.subscribe("pi")
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 03034e52209c5a67f42c4acb0e47482694a737da
 
 def on_message(client, userdata, msg):
     data = msg.payload.decode('utf-8')
@@ -102,7 +106,10 @@ if __name__ == '__main__':
 
     client.disconnect()
 
+<<<<<<< HEAD
     t6 = threading.Thread(target=button_control_led_1)
     t6.start()
     t6 = threading.Thread(target=button_control_led_2)
     t6.start()
+=======
+>>>>>>> 03034e52209c5a67f42c4acb0e47482694a737da
