@@ -70,23 +70,12 @@ def rfid_play():
 
 
 def button_play():
-    lcd = CharLCD('PCF8574', address=0x3f, port=1, backlight_enabled=True)
-    lcd.clear()
-    # 顯示 IP
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    ip = s.getsockname()[0]
-    lcd.cursor_pos = (1, 0)
-    lcd.write_string(ip)
-
     while True:
         time.sleep(0.5)
         # 按下 button 將 LCD 螢幕清空
         button_state = GPIO.input(button_pin)
         print(button_state)
         if button_state == 0:
-            lcd.cursor_pos = (0, 0)
-            lcd.write_string(button_state)
             lcd.cursor_pos = (1, 0)
             lcd.write_string(ip)
 
@@ -110,6 +99,13 @@ def excute_relay():
         GPIO.cleanup()
 
 if __name__ == '__main__':
+    # 顯示 IP
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip = s.getsockname()[0]
+    lcd.cursor_pos = (0, 0)
+    lcd.write_string(ip)
+
     t2 = threading.Thread(target=button_play)
     t2.start()
 
