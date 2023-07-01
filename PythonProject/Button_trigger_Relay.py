@@ -8,55 +8,33 @@ import socket
 
 reader = SimpleMFRC522()
 lcd = CharLCD('PCF8574', address=0x3f, port=1, backlight_enabled=True)
+lcd.clear()
 
 GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BOARD)
 
-# 設置蜂鳴器引腳和模式
 buzzer_pin = 12  # 根據BOARD模式，將BCM 18對應的引腳更改為12
-GPIO.setmode(GPIO.BOARD)  # GPIO.BOARD, 使用BOARD模式
 GPIO.setup(buzzer_pin, GPIO.OUT)
-#Setup Button
-button_pin = 29
-button_1 = 31
-button_2 = 33
-button_3 = 35
-button_4 = 37
+
+button_pin = 26
+button_1 = 32
+button_2 = 36
+button_3 = 38
+button_4 = 40
 GPIO.setup(button_pin,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 GPIO.setup(button_1,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 GPIO.setup(button_2,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 GPIO.setup(button_3,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 GPIO.setup(button_4,GPIO.IN,pull_up_down=GPIO.PUD_UP)
-# LCD clear
-lcd.clear()
 
-relay_1=7
-relay_2=11
-relay_3=13
-relay_4=15
-
+relay_1=31
+relay_2=33
+relay_3=35
+relay_4=37
 GPIO.setup(relay_1, GPIO.OUT)
 GPIO.setup(relay_2, GPIO.OUT)
 GPIO.setup(relay_3, GPIO.OUT)
 GPIO.setup(relay_4, GPIO.OUT)
-
-
-# 選擇控制伺服馬達的GPIO引腳
-servo_pin = 16
-# 使用BOARD模式
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(servo_pin, GPIO.OUT)
-# 設置PWM頻率為50Hz
-pwm = GPIO.PWM(servo_pin, 50)
-pwm.start(0)
-# 選擇控制伺服馬達的GPIO引腳
-servo_pin_2 = 18
-# 使用BOARD模式
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(servo_pin_2, GPIO.OUT)
-# 設置PWM頻率為50Hz
-pwm_2 = GPIO.PWM(servo_pin_2, 50)
-pwm_2.start(0)
-
 
 def rfid_play():
     try:
@@ -86,112 +64,41 @@ def button_play():
         if button_state_0 == 0:
             time.sleep(0.5)
             if flag==0:
-                print(button_state_0)
                 flag=1
                 lcd.cursor_pos = (1, 0)
                 lcd.write_string(ip)
+                execute_buzzer()
             else:
-                print(button_state_0)
                 flag=0
+                lcd.cursor_pos = (1, 0)
+                lcd.write_string('IP:'+ str(ip))
+                execute_buzzer()
 
-def button_control_led_1():
+def execute_buzzer():
+    GPIO.output(buzzer_pin, GPIO.HIGH)
+    time.sleep(0.2)
+    GPIO.output(buzzer_pin, GPIO.LOW)
+
+def button_control_led(button, relay):
     flag = 0
     try:
         while True:
-            button_state_1 = GPIO.input(button_1)
-            if button_state_1==0:
-                time.sleep(0.5)
+            button_state = GPIO.input(button)
+            if button_state==0:
+                execute_buzzer()
                 if flag==0:
-                    print(button_state_1)
+                    print("button:{0}, relay: {1}, button_state: {2}".format(str(button), str(relay), str(button_state)))
                     flag=1
                 else:
-                    print(button_state_1)
+                    print("button:{0}, relay: {1}, button_state: {2}".format(str(button), str(relay), str(button_state)))
                     flag=0
             if flag==1:
-                GPIO.output(relay_1,GPIO.HIGH)
+                GPIO.output(relay, GPIO.HIGH)
             else:
-                GPIO.output(relay_1,GPIO.LOW)  
-    finally:
-        GPIO.cleanup()
-        
-def button_control_led_2():
-    flag = 0
-    try:
-        while True:
-            button_state_1 = GPIO.input(button_2)
-            if button_state_1==0:
-                time.sleep(0.5)
-                if flag==0:
-                    print(button_state_1)
-                    flag=1
-                else:
-                    print(button_state_1)
-                    flag=0
-            if flag==1:
-                GPIO.output(relay_2,GPIO.HIGH)
-            else:
-                GPIO.output(relay_2,GPIO.LOW)  
+                GPIO.output(relay, GPIO.LOW)  
     finally:
         GPIO.cleanup()
 
-def button_control_led_3():
-    flag = 0
-    try:
-        while True:
-            button_state_1 = GPIO.input(button_3)
-            if button_state_1==0:
-                time.sleep(0.5)
-                if flag==0:
-                    print(button_state_1)
-                    flag=1
-                else:
-                    print(button_state_1)
-                    flag=0
-            if flag==1:
-                GPIO.output(relay_3,GPIO.HIGH)
-            else:
-                GPIO.output(relay_3,GPIO.LOW)  
-    finally:
-        GPIO.cleanup()
-        
-def button_control_led_4():
-    flag = 0
-    try:
-        while True:
-            button_state_1 = GPIO.input(button_4)
-            if button_state_1==0:
-                time.sleep(0.5)
-                if flag==0:
-                    print(button_state_1)
-                    flag=1
-                else:
-                    print(button_state_1)
-                    flag=0
-            if flag==1:
-                GPIO.output(relay_4,GPIO.HIGH)
-            else:
-                GPIO.output(relay_4,GPIO.LOW)  
-    finally:
-        GPIO.cleanup()
-
-def excute_relay():
-    try:
-        while True:
-            GPIO.output(relay_1, GPIO.HIGH)
-            time.sleep(1)
-            GPIO.output(relay_1, GPIO.LOW)
-            GPIO.output(relay_2, GPIO.HIGH)
-            time.sleep(1)
-            GPIO.output(relay_2, GPIO.LOW)
-            GPIO.output(relay_3, GPIO.HIGH)
-            time.sleep(1)
-            GPIO.output(relay_3, GPIO.LOW)
-            GPIO.output(relay_4, GPIO.HIGH)
-            time.sleep(1)                                         
-            GPIO.output(relay_4, GPIO.LOW)
-
-    finally:
-        GPIO.cleanup()
 
 if __name__ == '__main__':
     # 顯示 IP
@@ -201,18 +108,11 @@ if __name__ == '__main__':
     lcd.cursor_pos = (0, 0)
     lcd.write_string(ip)
 
-    t2 = threading.Thread(target=button_play)
+    t1 = threading.Thread(target=button_control_led, args=(button_1, relay_1))
+    t1.start()
+    t2 = threading.Thread(target=button_control_led, args=(button_2, relay_2))
     t2.start()
-
-    t5 = threading.Thread(target=excute_relay)
-    t5.start()
-
-    
-    t6 = threading.Thread(target=button_control_led_1)
-    t6.start()
-    t7 = threading.Thread(target=button_control_led_2)
-    t7.start()
-    t8 = threading.Thread(target=button_control_led_3)
-    t8.start()
-    t9 = threading.Thread(target=button_control_led_4)
-    t9.start()
+    t3 = threading.Thread(target=button_control_led, args=(button_3, relay_3))
+    t3.start()
+    t4 = threading.Thread(target=button_control_led, args=(button_4, relay_4))
+    t4.start()
